@@ -1,0 +1,33 @@
+name: Terraform Security Scan with Checkov
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  security-scan:
+    name: Run Checkov on Terraform Code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Install Checkov
+        run: pip install checkov
+
+      - name: Run Checkov Scan
+        run: checkov -d . --output cli
+
+      - name: Upload Checkov Report (Optional)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkov-report
+          path: checkov_report.json
