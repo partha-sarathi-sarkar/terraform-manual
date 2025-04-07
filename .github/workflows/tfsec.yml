@@ -40,10 +40,10 @@ jobs:
           name: tfsec-sarif-report
           path: tfsec-report/tfsec.sarif
 
-          - name: Run tfsec and generate summary
-          run: |
+      - name: Run tfsec and generate summary
+        run: |
             tfsec . --format json --out tfsec-report.json
         
             echo "### 🔐 tfsec Security Summary" >> $GITHUB_STEP_SUMMARY
             jq -r '.results[] | "- **\(.rule_id)** (\(.severity)) in `\(.location.filename):\(.location.start_line)` → \(.description)"' tfsec-report.json >> $GITHUB_STEP_SUMMARY
-        
+    
