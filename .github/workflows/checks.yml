@@ -2,8 +2,11 @@ name: Terraform CI
 
 on:
   push:
-    paths:
-      - '**.tf'
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+
 permissions:
   contents: read
   security-events: write  # required for uploading SARIF reports
